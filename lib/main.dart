@@ -13,15 +13,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -29,19 +26,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int selectedIcon;
-  Offset lightPosition = Offset(172, 80); // Start lightbox outside view
-  GlobalKey _button0 = GlobalKey();
-  GlobalKey _button1 = GlobalKey();
-  GlobalKey _button2 = GlobalKey();
 
-  getPositions(buttonkey) {
-    final RenderBox renderBoxRed = buttonkey.currentContext.findRenderObject();
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    // final position = renderBoxRed.;
-
-    // print("POSITION of Red: $positionRed ")
-    print(position);
-    return lightPosition = position;
+  _getPosition(){
+    
   }
 
   @override
@@ -63,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Color(0xFF2C2C2C),
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Flutter fly Appbar Challenge'),
       ),
       body: Center(
         child: Container(
@@ -114,7 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     IconButton(
-                        key: _button0,
                         iconSize: 34,
                         color: selectedIcon == 0
                             ? Color(0xFFE1E1E1)
@@ -127,7 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           getPositions(_button0);
                         }),
                     IconButton(
-                        key: _button1,
                         iconSize: 34,
                         color: selectedIcon == 1
                             ? Color(0xFFE1E1E1)
@@ -140,7 +125,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           getPositions(_button1);
                         }),
                     IconButton(
-                        key: _button2,
                         iconSize: 34,
                         color: selectedIcon == 2
                             ? Color(0xFFE1E1E1)
@@ -150,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           setState(() {
                             selectedIcon = 2;
                           });
-                          getPositions(_button2);
+                          getPosition(_button2);
                         }),
                   ],
                 ),
