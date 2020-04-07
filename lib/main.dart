@@ -25,24 +25,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String selectedIcon;
-
-  selectIcon(String name) {
-    selectedIcon = name;
-  }
+  Alignment lightAlignment;
+  Alignment lightBundleAlignment;
+  double lightOpacity;
 
   @override
   void initState() {
-    selectedIcon = 'button0';
-    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    selectedIcon = 'button1';
+    lightAlignment = Alignment.topCenter;
+    lightBundleAlignment = Alignment.topCenter;
+    lightOpacity = 1;
 
     super.initState();
   }
-
-  // _afterLayout(_) {
-  //   getPositions(_button0);
-  //   getPositions(_button1);
-  //   getPositions(_button2);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,59 +48,81 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           width: 300,
           height: 80,
           child: Stack(
             alignment: Alignment.center,
             children: [
+              //! BACKGROUND CONTAINER
               Container(
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
                   color: Color(0xFF3B3B3B),
                 ),
               ),
-              AnimatedPositioned(
-                left: 20.0 - 61,
-                duration: Duration(milliseconds: 500),
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    ClipPath(
-                      clipper: LightClipper(),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                stops: [0.0, 1.9],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.grey[400],
-                                  Colors.transparent
-                                ])),
-                        width: 80,
-                        height: selectedIcon == null ? 0 : 80,
+              Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  //! LIGHT BUNDLE
+                  Align(
+                    alignment: lightBundleAlignment,
+                    child: AnimatedOpacity(
+                      opacity: lightOpacity,
+                      duration: Duration(milliseconds: 200),
+                      child: ClipPath(
+                        clipper: LightClipper(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  stops: [0.0, 1.9],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.grey[400],
+                                    Colors.transparent
+                                  ])),
+                          width: 80,
+                        ),
                       ),
                     ),
-                    Container(
-                      color: Color(0xFFF1F1F1),
-                      width: 44,
-                      height: selectedIcon == null ? 0 : 4,
+                  ),
+                  //! LIGHT BULB
+                  AnimatedAlign(
+                    duration: Duration(milliseconds: 300),
+                    alignment: lightAlignment,
+                    onEnd: () {
+                      setState(() {
+                        lightOpacity = 1;
+                        lightBundleAlignment = lightAlignment;
+                      });
+                    },
+                    child: Container(
+                      width: 80,
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        color: Color(0xFFF1F1F1),
+                        width: 44,
+                        height: 3,
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+              //! BUTTON ROW
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 14),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Button(
                       name: 'button0',
                       selectedIcon: selectedIcon,
-                      icon: Icon(Icons.favorite_border),
+                      icon: Icon(Icons.inbox),
                       onClick: () {
                         setState(() {
                           selectedIcon = 'button0';
+                          lightAlignment = Alignment.topLeft;
+                          lightOpacity = 0;
                         });
                       },
                     ),
@@ -116,16 +133,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       onClick: () {
                         setState(() {
                           selectedIcon = 'button1';
+                          lightAlignment = Alignment.topCenter;
+                          lightOpacity = 0;
                         });
                       },
                     ),
                     Button(
                       name: 'button2',
                       selectedIcon: selectedIcon,
-                      icon: Icon(Icons.favorite_border),
+                      icon: Icon(Icons.search),
                       onClick: () {
                         setState(() {
                           selectedIcon = 'button2';
+                          lightAlignment = Alignment.topRight;
+                          lightOpacity = 0;
                         });
                       },
                     ),
@@ -143,9 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class Button extends StatelessWidget {
   final String name;
   final String selectedIcon;
-  final Color color = null;
   final Icon icon;
-  final double size = 34;
   final Function onClick;
 
   Button({Key key, this.name, this.selectedIcon, this.icon, this.onClick})
@@ -154,7 +173,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      iconSize: size,
+      iconSize: 34,
       color: selectedIcon == name ? Color(0xFFE1E1E1) : Color(0xFF6C6C6C),
       icon: icon,
       onPressed: onClick,
@@ -166,16 +185,13 @@ class LightClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-
     path.relativeMoveTo(20, 0);
     path.lineTo(60, 0.0);
     path.lineTo(80, size.height);
     path.lineTo(0, size.height);
     path.close();
-
     return path;
   }
-
   @override
   bool shouldReclip(LightClipper oldClipper) => false;
 }
