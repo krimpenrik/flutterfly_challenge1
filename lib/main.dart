@@ -26,7 +26,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String selectedIcon;
 
-  _getPosition() {}
+  selectIcon(String name) {
+    selectedIcon = name;
+  }
 
   @override
   void initState() {
@@ -97,24 +99,36 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Button(name: 'button0', selectedIcon: selectedIcon, icon: Icon(Icons.favorite_border), onClick: Setstate(){},),
-                    IconButton(
-                        iconSize: 34,
-                        color: selectedIcon == 1
-                            ? Color(0xFFE1E1E1)
-                            : Color(0xFF6C6C6C),
-                        icon: Icon(Icons.favorite_border),
-                        onPressed: () {
-                        }),
-                    IconButton(
-                        iconSize: 34,
-                        color: selectedIcon == 2
-                            ? Color(0xFFE1E1E1)
-                            : Color(0xFF6C6C6C),
-                        icon: Icon(Icons.search),
-                        onPressed: () {
-
-                        }),
+                    Button(
+                      name: 'button0',
+                      selectedIcon: selectedIcon,
+                      icon: Icon(Icons.favorite_border),
+                      onClick: () {
+                        setState(() {
+                          selectedIcon = 'button0';
+                        });
+                      },
+                    ),
+                    Button(
+                      name: 'button1',
+                      selectedIcon: selectedIcon,
+                      icon: Icon(Icons.favorite_border),
+                      onClick: () {
+                        setState(() {
+                          selectedIcon = 'button1';
+                        });
+                      },
+                    ),
+                    Button(
+                      name: 'button2',
+                      selectedIcon: selectedIcon,
+                      icon: Icon(Icons.favorite_border),
+                      onClick: () {
+                        setState(() {
+                          selectedIcon = 'button2';
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -127,24 +141,24 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Button extends StatelessWidget {
-  final String name; 
+  final String name;
   final String selectedIcon;
   final Color color = null;
-  final Icon icon; 
+  final Icon icon;
   final double size = 34;
   final Function onClick;
 
-  Button({Key key, this.name, this.selectedIcon, this.icon, this.onClick}) : super(key: key);
-
+  Button({Key key, this.name, this.selectedIcon, this.icon, this.onClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        iconSize: size,
-        color: selectedIcon == name ? Color(0xFFE1E1E1) : Color(0xFF6C6C6C), 
-        icon: icon,
-        onPressed: onClick,
-        );
+      iconSize: size,
+      color: selectedIcon == name ? Color(0xFFE1E1E1) : Color(0xFF6C6C6C),
+      icon: icon,
+      onPressed: onClick,
+    );
   }
 }
 
