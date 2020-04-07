@@ -11,4 +11,4 @@ Just 2 weeks partime into Flutter/Dart.
 ## Result
 ![](flutterfly_challenge_1.gif =250x) 
 
-<img src="https://github.com/krimpenrik/flutterfly_challenge1/flutterfly_challenge_1.gif" width="250">
+<img src="https://github.com/krimpenrik/flutterfly_challenge1/blob/master/flutterfly_challenge_1.gif" width="250">
