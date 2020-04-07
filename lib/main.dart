@@ -19,21 +19,18 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int selectedIcon;
+  String selectedIcon;
 
-  _getPosition(){
-    
-  }
+  _getPosition() {}
 
   @override
   void initState() {
-    selectedIcon = null;
+    selectedIcon = 'button0';
     // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
 
     super.initState();
@@ -66,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               AnimatedPositioned(
-                left: lightPosition.dx - 61,
+                left: 20.0 - 61,
                 duration: Duration(milliseconds: 500),
                 child: Stack(
                   alignment: Alignment.topCenter,
@@ -76,13 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Container(
                         decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              stops: [0.0, 1.9],
+                                stops: [0.0, 1.9],
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                              Colors.grey[400],
-                              Colors.transparent
-                            ])),
+                                  Colors.grey[400],
+                                  Colors.transparent
+                                ])),
                         width: 80,
                         height: selectedIcon == null ? 0 : 80,
                       ),
@@ -100,18 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    IconButton(
-                        iconSize: 34,
-                        color: selectedIcon == 0
-                            ? Color(0xFFE1E1E1)
-                            : Color(0xFF6C6C6C),
-                        icon: Icon(Icons.inbox),
-                        onPressed: () {
-                          setState(() {
-                            selectedIcon = 0;
-                          });
-                          getPositions(_button0);
-                        }),
+                    Button(name: 'button0', selectedIcon: selectedIcon, icon: Icon(Icons.favorite_border), onClick: Setstate(){},),
                     IconButton(
                         iconSize: 34,
                         color: selectedIcon == 1
@@ -119,10 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             : Color(0xFF6C6C6C),
                         icon: Icon(Icons.favorite_border),
                         onPressed: () {
-                          setState(() {
-                            selectedIcon = 1;
-                          });
-                          getPositions(_button1);
                         }),
                     IconButton(
                         iconSize: 34,
@@ -131,10 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             : Color(0xFF6C6C6C),
                         icon: Icon(Icons.search),
                         onPressed: () {
-                          setState(() {
-                            selectedIcon = 2;
-                          });
-                          getPosition(_button2);
+
                         }),
                   ],
                 ),
@@ -144,6 +123,28 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+}
+
+class Button extends StatelessWidget {
+  final String name; 
+  final String selectedIcon;
+  final Color color = null;
+  final Icon icon; 
+  final double size = 34;
+  final Function onClick;
+
+  Button({Key key, this.name, this.selectedIcon, this.icon, this.onClick}) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        iconSize: size,
+        color: selectedIcon == name ? Color(0xFFE1E1E1) : Color(0xFF6C6C6C), 
+        icon: icon,
+        onPressed: onClick,
+        );
   }
 }
 
