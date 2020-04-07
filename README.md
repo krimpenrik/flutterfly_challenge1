@@ -9,4 +9,4 @@ I was able to re-create the animation in flutter using the basic animation funct
 Just 2 weeks partime into Flutter/Dart. 
 
 ## Result
-![](flutterfly_challenge_1.gif)
+![](flutterfly_challenge_1.gif =250x) 
