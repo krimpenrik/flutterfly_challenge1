@@ -27,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Alignment lightAlignment;
   Alignment lightBundleAlignment;
   double lightOpacity;
+  bool iconEnlightment;
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
     lightAlignment = Alignment.topCenter;
     lightBundleAlignment = Alignment.topCenter;
     lightOpacity = 1;
-
+    iconEnlightment = true;
     super.initState();
   }
 
@@ -93,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       setState(() {
                         lightOpacity = 1;
                         lightBundleAlignment = lightAlignment;
+                        iconEnlightment = true;
                       });
                     },
                     child: Container(
@@ -116,36 +118,42 @@ class _MyHomePageState extends State<MyHomePage> {
                     Button(
                       name: 'button0',
                       selectedIcon: selectedIcon,
+                      iconEnlightment: iconEnlightment,
                       icon: Icon(Icons.inbox),
                       onClick: () {
                         setState(() {
                           selectedIcon = 'button0';
                           lightAlignment = Alignment.topLeft;
                           lightOpacity = 0;
+                          iconEnlightment = false;
                         });
                       },
                     ),
                     Button(
                       name: 'button1',
                       selectedIcon: selectedIcon,
+                      iconEnlightment: iconEnlightment,
                       icon: Icon(Icons.favorite_border),
                       onClick: () {
                         setState(() {
                           selectedIcon = 'button1';
                           lightAlignment = Alignment.topCenter;
                           lightOpacity = 0;
+                          iconEnlightment = false;
                         });
                       },
                     ),
                     Button(
                       name: 'button2',
                       selectedIcon: selectedIcon,
+                      iconEnlightment: iconEnlightment,
                       icon: Icon(Icons.search),
                       onClick: () {
                         setState(() {
                           selectedIcon = 'button2';
                           lightAlignment = Alignment.topRight;
                           lightOpacity = 0;
+                          iconEnlightment = false;
                         });
                       },
                     ),
@@ -163,17 +171,26 @@ class _MyHomePageState extends State<MyHomePage> {
 class Button extends StatelessWidget {
   final String name;
   final String selectedIcon;
+  final bool iconEnlightment;
   final Icon icon;
   final Function onClick;
 
-  Button({Key key, this.name, this.selectedIcon, this.icon, this.onClick})
+  Button(
+      {Key key,
+      this.name,
+      this.selectedIcon,
+      this.icon,
+      this.onClick,
+      this.iconEnlightment})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       iconSize: 34,
-      color: selectedIcon == name ? Color(0xFFE1E1E1) : Color(0xFF6C6C6C),
+      color: selectedIcon == name && iconEnlightment
+          ? Color(0xFFE1E1E1)
+          : Color(0xFF6C6C6C),
       icon: icon,
       onPressed: onClick,
     );
@@ -191,6 +208,7 @@ class LightClipper extends CustomClipper<Path> {
     path.close();
     return path;
   }
+
   @override
   bool shouldReclip(LightClipper oldClipper) => false;
 }
